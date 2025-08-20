@@ -1,4 +1,4 @@
-package com.example.wippo.domain.auth.onboarding;
+package com.example.wippo.domain.auth.onboarding.entity;
 
 import java.time.LocalDateTime;
 

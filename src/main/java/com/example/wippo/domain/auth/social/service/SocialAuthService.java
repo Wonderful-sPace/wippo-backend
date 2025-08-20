@@ -1,8 +1,8 @@
-package com.example.wippo.domain.auth.social;
+package com.example.wippo.domain.auth.social.service;
 
 import org.springframework.stereotype.Service;
 
-import com.example.wippo.domain.auth.onboarding.OnboardingService;
+import com.example.wippo.domain.auth.onboarding.service.OnboardingService;
 import com.example.wippo.domain.auth.social.dto.SocialLoginStartRequest;
 import com.example.wippo.domain.auth.social.dto.SocialLoginStartResponse;
 import com.example.wippo.domain.auth.social.provider.SocialClient;

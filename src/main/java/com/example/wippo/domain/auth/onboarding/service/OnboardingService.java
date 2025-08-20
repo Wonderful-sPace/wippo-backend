@@ -1,14 +1,17 @@
-package com.example.wippo.domain.auth.onboarding;
+package com.example.wippo.domain.auth.onboarding.service;
 
 import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Service;
 
+import com.example.wippo.domain.auth.onboarding.entity.OnboardingSession;
+import com.example.wippo.domain.auth.onboarding.repository.OnboardingSessionRepository;
 import com.example.wippo.domain.auth.social.Provider;
-import com.example.wippo.domain.auth.social.UserSocialAccount;
-import com.example.wippo.domain.auth.social.UserSocialAccountRepository;
 import com.example.wippo.domain.auth.social.dto.SocialLoginStartResponse;
+import com.example.wippo.domain.auth.social.entity.UserSocialAccount;
 import com.example.wippo.domain.auth.social.provider.SocialClient;
+import com.example.wippo.domain.auth.social.repository.UserSocialAccountRepository;
+import com.example.wippo.domain.auth.token.TokenPair;
 import com.example.wippo.domain.auth.token.TokenService;
 import com.example.wippo.domain.user.User;
 import com.example.wippo.domain.user.UserRepository;
@@ -20,6 +23,8 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class OnboardingService {
+    public static record FinalizeResult(Long userId, String displayName, TokenPair tokens) {}
+
     private final OnboardingSessionRepository onboardingRepository;
     private final UserRepository userRepository;
     private final UserService userService;
@@ -30,7 +35,7 @@ public class OnboardingService {
         var id = java.util.UUID.randomUUID().toString();
 
         String suggested = normalizeNickname(p.nickname(), p.provider(), p.providerUserId());
-
+        
         var s = OnboardingSession.builder()
             .id(id)
             .provider(p.provider())

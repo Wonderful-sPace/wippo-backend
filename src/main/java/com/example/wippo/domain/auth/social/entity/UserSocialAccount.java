@@ -1,10 +1,11 @@
-package com.example.wippo.domain.auth.social;
+package com.example.wippo.domain.auth.social.entity;
 
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.example.wippo.domain.auth.social.Provider;
 import com.example.wippo.domain.user.User;
 
 import jakarta.persistence.*;

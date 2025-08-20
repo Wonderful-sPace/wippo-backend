@@ -1,4 +1,4 @@
-package com.example.wippo.domain.auth.phone;
+package com.example.wippo.domain.auth.phone.entity;
 
 import java.time.LocalDateTime;
 

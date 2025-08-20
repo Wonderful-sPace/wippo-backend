@@ -1,4 +1,4 @@
-package com.example.wippo.domain.auth.phone;
+package com.example.wippo.domain.auth.phone.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -6,10 +6,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.wippo.domain.auth.onboarding.OnboardingService;
 import com.example.wippo.domain.auth.onboarding.dto.LoginResponse;
+import com.example.wippo.domain.auth.onboarding.service.OnboardingService;
 import com.example.wippo.domain.auth.phone.dto.SendCodeRequest;
 import com.example.wippo.domain.auth.phone.dto.VerifyCodeRequest;
+import com.example.wippo.domain.auth.phone.service.PhoneAuthService;
 
 import lombok.RequiredArgsConstructor;
 

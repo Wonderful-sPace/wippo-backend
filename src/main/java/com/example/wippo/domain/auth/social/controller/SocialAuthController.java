@@ -1,4 +1,4 @@
-package com.example.wippo.domain.auth.social;
+package com.example.wippo.domain.auth.social.controller;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.wippo.domain.auth.social.dto.SocialLoginStartRequest;
 import com.example.wippo.domain.auth.social.dto.SocialLoginStartResponse;
+import com.example.wippo.domain.auth.social.service.SocialAuthService;
 
 import lombok.RequiredArgsConstructor;
 

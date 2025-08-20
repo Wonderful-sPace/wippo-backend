@@ -1,10 +1,13 @@
-package com.example.wippo.domain.auth.phone;
+package com.example.wippo.domain.auth.phone.service;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import com.example.wippo.domain.auth.phone.entity.PhoneVerification;
+import com.example.wippo.domain.auth.phone.repository.PhoneVerificationRepository;
 
 import lombok.RequiredArgsConstructor;
 
