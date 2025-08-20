@@ -11,7 +11,7 @@ import com.example.wippo.domain.auth.social.dto.SocialLoginStartRequest;
 import lombok.Data;
 
 @Service
-@Profile("!dev & !local")
+@Profile("!dev & !local & !test")
 public class KakaoClient implements SocialClient {
     private final WebClient web = WebClient.builder()
             .baseUrl("https://kapi.kakao.com")

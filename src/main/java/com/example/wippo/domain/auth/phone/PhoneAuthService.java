@@ -3,6 +3,7 @@ package com.example.wippo.domain.auth.phone;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -11,9 +12,6 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class PhoneAuthService {
-    private static final int CODE_TTL_MIN = 3;
-    private static final int MAX_ATTEMPTS = 5;
-
     private final PhoneVerificationRepository repo;
     private final SmsSender sms;
     private final SecureRandom rng = new SecureRandom();
@@ -34,26 +32,13 @@ public class PhoneAuthService {
             .phoneNumber(phoneE164)
             .codeHash(hash)
             .salt(salt)
-            .expiresAt(LocalDateTime.now().plusMinutes(CODE_TTL_MIN))
+            .expiresAt(LocalDateTime.now().plusMinutes(ttlMinutes))
             .attemptCount(0)
             .build());
 
-        sms.send(phoneE164, "[Wippo] 인증코드 " + code + " (3분 이내 유효)");
+        sms.send(phoneE164, "[Wippo] 인증코드 " + code + " (" + ttlMinutes + "분 이내 유효)");
     }
 
-    private String sha256Hex(String s) {
-        try {
-            var md = java.security.MessageDigest.getInstance("SHA-256");
-            byte[] out = md.digest(s.getBytes(java.nio.charset.StandardCharsets.UTF_8));
-            var sb = new StringBuilder(out.length * 2);
-            for (byte b : out) sb.append(String.format("%02x", b));
-            return sb.toString();
-        } catch (Exception e) {
-            throw new IllegalStateException("hash error", e);
-        }
-    }
-
-    public interface SmsSender { void send(String phoneE164, String message); }
 
     @jakarta.transaction.Transactional
     public boolean verifyCode(String phoneE164, String code){
@@ -61,20 +46,28 @@ public class PhoneAuthService {
             .orElseThrow(() -> new IllegalStateException("code not found"));
 
         if (pv.isExpired()) return false;
-        if (pv.getAttemptCount() >= MAX_ATTEMPTS) return false;
+        if (pv.getAttemptCount() >= maxAttempts) return false;
 
         String computed = sha256Hex(code + ":" + pv.getSalt() + ":" + pepper);
-
         boolean ok = constantTimeEquals(computed, pv.getCodeHash());
 
-        // 시도 횟수 증가
         pv.setAttemptCount(pv.getAttemptCount() + 1);
-        repo.save(pv);
-
-        if (ok) {
-            repo.deleteById(pv.getId()); // 사용 후 폐기
-        }
+        if (ok) repo.deleteById(pv.getId()); 
+        else repo.save(pv);
+        
         return ok;
+    }
+    
+    private String sha256Hex(String s) {
+        try {
+            var md = java.security.MessageDigest.getInstance("SHA-256");
+            byte[] out = md.digest(s.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+            var sb = new StringBuilder(out.length * 2);
+            for (byte b : out) sb.append(String.format("%02x", b));
+            return sb.toString();
+        } catch (java.security.NoSuchAlgorithmException e) {
+            throw new IllegalStateException("SHA-256 not available", e);
+        }
     }
 
     private boolean constantTimeEquals(String a, String b) {
@@ -86,4 +79,6 @@ public class PhoneAuthService {
         for (int i = 0; i < x.length; i++) res |= x[i] ^ y[i];
         return res == 0;
     }
+
+    public interface SmsSender { void send(String phoneE164, String message); }
 }

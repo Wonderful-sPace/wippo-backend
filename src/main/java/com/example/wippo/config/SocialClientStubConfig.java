@@ -9,7 +9,7 @@ import com.example.wippo.domain.auth.social.dto.SocialLoginStartRequest;
 import com.example.wippo.domain.auth.social.provider.SocialClient;
 
 @Configuration
-@Profile({"dev", "local"})
+@Profile({"dev", "local", "test"})
 public class SocialClientStubConfig {
 
     @Bean
@@ -22,7 +22,6 @@ public class SocialClientStubConfig {
         return stubOf(Provider.GOOGLE);
     }
 
-    @Bean
     public SocialClient stubOf(Provider provider) {
         return new SocialClient() {
             @Override public Provider provider() { return provider; }

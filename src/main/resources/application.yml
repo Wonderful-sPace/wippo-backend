@@ -16,5 +16,15 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
     show-sql: true         # 콘솔에 SQL 출력
 
+    profiles:
+      active: test
+
 jwt:
   secret: "change_me_to_a_long_random_secret_at_least_32_chars"
+
+wippo:
+  phone:
+    code:
+      pepper: ${PHONE_CODE_PEPPER:dev-pepper}  # 환경변수 없으면 dev-pepper로 기본값
+      ttl-minutes: 3
+      max-attempts: 5

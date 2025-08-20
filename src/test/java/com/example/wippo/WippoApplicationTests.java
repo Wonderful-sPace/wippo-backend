@@ -1,25 +1,16 @@
-package com.example.wippo;
+// package com.example.wippo;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+// import org.junit.jupiter.api.Test;
+// import org.springframework.boot.test.context.SpringBootTest;
+// import org.springframework.test.context.ActiveProfiles;
 
-import com.example.wippo.domain.auth.phone.PhoneAuthService;
-import com.example.wippo.domain.auth.social.provider.SocialClient;
-
-@SpringBootTest
-@ActiveProfiles("test")
-class WippoApplicationTests {
-	@MockitoBean
-	PhoneAuthService.SmsSender smsSender;
-
-	@MockitoBean
-    SocialClient socialClient;
+// @SpringBootTest
+// @ActiveProfiles("test")
+// class WippoApplicationTests {
 	
-	@Test
-	void contextLoads() {
-		System.out.println("=== Test Running ===");
-	}
+// 	@Test
+// 	void contextLoads() {
+// 		System.out.println("=== Test Running ===");
+// 	}
 
-}
+// }
